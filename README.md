@@ -1,3 +1,3 @@
 # ansible-exercices
 
-exercices made whe learning ansible from udemy course
+exercices made when learning ansible from udemy course
