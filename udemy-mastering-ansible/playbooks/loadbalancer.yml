@@ -1,0 +1,43 @@
+---
+- hosts: loadbalancer
+  become: true
+  tasks:
+    - name: install tools
+      yum: name={{item}} state=present
+      with_items:
+        - python-httplib2
+      
+    - name: install epel repository
+      yum: 
+        name: epel-release
+        state: latest
+
+    - name: install libselinux
+      yum:
+        name: libselinux-python
+        state: present
+
+    - name: install nginx
+      yum:
+        name: nginx
+        state: present
+
+    - name: copy nginx defaul config
+      copy: src=demo/nginx.conf dest=/etc/nginx/nginx.conf mode=0755
+      notify: restart nginx
+
+    - name: ensure nginx started
+      service: name=nginx state=started enabled=yes
+
+    - name: configure nginx site
+      template: src=templates/nginx.conf.j2 dest=/etc/nginx/demo.conf mode=0644
+      notify: restart nginx
+
+    - name: activate defaults nginx site
+      file: src=/etc/nginx/demo.conf dest=/etc/nginx/conf.d/demo.conf state=link
+      notify: restart nginx
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
+          
