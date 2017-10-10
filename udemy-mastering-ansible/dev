@@ -2,7 +2,7 @@
 anslb01
 
 [webserver]
-answeb01 ansible_host=192.168.1.190
+answeb01
 answeb02
 
 [database]
