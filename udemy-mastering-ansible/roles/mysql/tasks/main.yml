@@ -41,9 +41,10 @@
 - name: create database
   mysql_db: name={{ db_name }} state=present
 
-#   - name: upgrade mysql tables
-#     command: mysql_upgrade
-#     when: mysql.changed
+- name: upgrade mysql tables
+  command: mysql_upgrade
+  ignore_errors: true
+  changed_when: false
 
 - name: create user
   mysql_user: name={{ db_user_name }} password={{ db_user_pass }} 
