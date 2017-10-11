@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "run the following commands before start"
+echo -e "# eval \"\$(ssh-agent -s)\""
+echo -e "# ssh-add ~/.ssh/id_ansible"
