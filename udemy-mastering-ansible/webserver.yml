@@ -1,6 +1,7 @@
 ---
 - hosts: webserver
   become: true
+  gather_facts: false
   roles:
     - httpd
     - demo_app

@@ -1,4 +1,9 @@
 ---
+- hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    
 - include: control.yml
 - include: database.yml
 - include: webserver.yml
