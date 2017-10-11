@@ -1,2 +1,26 @@
 ---
-# tasks file for demo_app
+- name: update centos
+  yum: name="*" state=latest
+
+- name: install epel
+  yum: name=epel-release state=present
+
+- name: install web components
+  yum: name={{item}} state=present 
+  with_items:
+    - python-pip
+    - python-virtualenv
+    - libselinux-python
+    - MySQL-python
+
+- name: copy demo app source
+  copy: src=demo/app/ dest=/var/www/demo mode=0755
+  notify: restart httpd
+
+- name: copy apache virtual host config
+  copy: src=demo/demo.conf dest=/etc/httpd/conf.d mode=0755
+  notify: restart httpd
+
+- name: setup python virtualenv
+  pip: requirements=/var/www/demo/requirements.txt virtualenv=/var/www/demo/.venv
+  notify: restart httpd    
