@@ -20,15 +20,24 @@
     state: present
 
 - name: copy nginx default config
-  copy: src=nginx.conf dest=/etc/nginx/nginx.conf mode=0755
+  copy: src=nginx.conf dest=/etc/nginx/nginx.conf mode=0644
   notify: restart nginx
 
 - name: configure nginx site
-  template: src=nginx.conf.j2 dest=/etc/nginx/demo.conf mode=0644
+  template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/{{ item.key }} mode=0644
+  with_dict: "{{ sites }}"
   notify: restart nginx
 
-- name: activate defaults nginx site
-  file: src=/etc/nginx/demo.conf dest=/etc/nginx/conf.d/demo.conf state=link
+- name: get active sites
+  shell: ls -1 /etc/nginx/conf.d
+  register: active_sites
+
+- name: deactivate sites
+  file: 
+    path: /etc/nginx/conf.d/{{ item }}
+    state: absent
+  with_items: "{{active_sites.stdout_lines}}"
+  when: item not in sites
   notify: restart nginx
 
 - name: ensure nginx started
