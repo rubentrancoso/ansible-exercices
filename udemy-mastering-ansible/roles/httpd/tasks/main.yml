@@ -12,7 +12,8 @@
     - mod_wsgi
 
 - name: enale httpd to connect to mysql
-  command: setsebool -P httpd_can_network_connect=1
+  shell: setsebool -P httpd_can_network_connect=1
+  changed_when: false
 
 - name: ensure mod_wsgi enabled
   apache2_module: state=present name=wsgi

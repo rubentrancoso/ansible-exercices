@@ -31,6 +31,10 @@
 - name: get active sites
   shell: ls -1 /etc/nginx/conf.d
   register: active_sites
+  changed_when: active_sites.stdout_lines != sites.keys()
+
+- debug:
+    msg: "Sites keys: {{ sites.keys() }} vs {{ active_sites.stdout_lines }}"
 
 - name: deactivate sites
   file: 
