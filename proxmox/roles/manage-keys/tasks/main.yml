@@ -1,0 +1,14 @@
+---
+- name: ensure ~/.ssh/config file exists
+  copy:
+    content: ""
+    dest: ~/.ssh/config
+    force: no
+    mode: 0400
+
+- name: ensure privatekey is added to ~/.ssh/config
+  lineinfile: dest="~/.ssh/config" regexp="^IdentityFile ~/.ssh/{{item}}"
+              line="IdentityFile ~/.ssh/{{item}}"
+  with_items:
+    - id_doteva
+    - id_ansible

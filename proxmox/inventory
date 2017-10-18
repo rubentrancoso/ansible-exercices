@@ -1,0 +1,11 @@
+[proxmox]
+alpha ansible_user=root
+
+[executor]
+localhost ansible_connection=local
+
+[cluster]
+machine1
+machine2
+machine3
+machine4

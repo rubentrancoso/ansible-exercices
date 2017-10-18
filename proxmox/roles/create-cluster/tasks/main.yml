@@ -1,0 +1,32 @@
+---
+- name: install python pip on proxmox server
+  apt: name={{item}} state=present
+  with_items:
+    - python-pip
+
+- name: install proxmoxer and requests on proxmox server
+  pip: name={{item}} state=present
+  with_items:
+    - proxmoxer
+    - requests
+
+- name: create vm
+  proxmox_kvm:
+    name: '{{item}}'
+    node: '{{node}}'
+    api_host: '{{api_host}}'
+    api_user: '{{api_user}}'
+    api_password: '{{api_password}}'
+    cores: 1
+    memory: 1024
+    balloon: yes
+    state: present
+    timeout: 60
+    cpuunits: 0
+    net: '{"net0":"virtio,bridge=vmbr0"}'
+    kvm: yes
+    hotplug: 1
+    boot: cdn
+    onboot: no
+    localtime: yes
+  with_items: "{{ groups['cluster'] }}"

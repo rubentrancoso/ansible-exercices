@@ -1,0 +1,5 @@
+---
+api_host: alpha
+api_user: "{{vault_api_user}}"
+api_password: "{{vault_api_password}}"
+node: alpha

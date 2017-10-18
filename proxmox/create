@@ -1,0 +1,3 @@
+#!/bin/bash
+rm -rf *.retry
+ansible-playbook create.yml

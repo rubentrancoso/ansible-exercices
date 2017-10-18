@@ -1,0 +1,6 @@
+---
+- hosts: executor
+  # become: true
+  gather_facts: false
+  roles:
+    - manage-keys

@@ -1,0 +1,6 @@
+# http://docs.ansible.com/ansible/latest/proxmox_kvm_module.html
+---
+- hosts: proxmox
+  gather_facts: false
+  roles:
+    - create-cluster
